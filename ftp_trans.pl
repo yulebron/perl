@@ -7,7 +7,10 @@ sub printOneLine()
 {
   my ($cellphone, $studentid) = @_;
   
-  print FILE "\"$studentid\",\"1445656228\",,,,,,,,\"$cellphone\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"E:\\\\yulebron\\\\ftp\",,,,\"0\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"welcome to Dian TX\",,,,,,\"2,4,Dir,E:\\\\yulebron\\\\ftp\\\\USER\\\\$studentid,Access,4383,2,Dir,E:\\\\yulebron\\\\ftp\\\\PUBLIC\",,,,,,,,,\n";
+  my $printLine = "\"$studentid\",\"1445656228\",,,,,,,,\"$cellphone\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"".
+                  "E:\\\\yulebron\\\\ftp\",,,,\"0\",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\"welcome to Dian TX\",,,,,,\"".
+                  "2,4,Dir,E:\\\\yulebron\\\\ftp\\\\USER\\\\$studentid,Access,4383,2,Dir,E:\\\\yulebron\\\\ftp\\\\PUBLIC\",,,,,,,,,\n";
+  print FILE $printLine;
   
   my $dirName = "test\\$studentid";
   if( !(-e $dirName) )
@@ -17,10 +20,18 @@ sub printOneLine()
   
 }
 
+if($#ARGV != 1)
+{
+  print "please enter a excel file name\n";
+  exit(1);
+}
+
+my $file_name = $ARGV[0];
+
 #打开目标excel
 my $parser   = Spreadsheet::ParseExcel->new();
 #指定excel路径
-my $workbook = $parser->parse("name.xls");
+my $workbook = $parser->parse("$file_name");
 if(!defined $workbook)
 {
   die $parser->error(), ".\n";
